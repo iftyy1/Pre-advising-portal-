@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/main.css' %}">
+<link rel="stylesheet" href="{% static 'styles/forms.css' %}">
+<link rel="stylesheet" href="{% static 'styles/table.css' %}" />
+
+{% block content %}
+
+<form method="GET">
+    <div class="form-group">
+        <label for="course_code">Search by Course Code:</label>
+        <input type="text" id="course_code" name="course_code" value="{{ course_filter }}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="class_time">Filter by Class Time:</label>
+        <select id="class_time" name="class_time" class="form-control">
+            <option value="">Select Class Time</option>
+            {% for key, value in class_timings.items %}
+                <option value="{{ key }}" {% if class_time_filter == key %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="class_day">Filter by Class Day:</label>
+        <select id="class_day" name="class_day" class="form-control">
+            <option value="">Select Class Day</option>
+            {% for key, value in class_days.items %}
+                <option value="{{ key }}" {% if class_day_filter == key %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Section Number</th>
+            <th>Department</th>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Faculty</th>
+            <th>Theory Room</th>
+            <th>Lab Room</th>
+            <th>Class Time</th>
+            <th>Exam Time</th>
+            <th>Class Day</th>
+            <th>Lab Day</th>
+            <th>Total Seats</th>
+            <th>Seats Booked</th>
+            {% if request.user.user_type == 2 or request.user.user_type == 3 %}
+            <th>Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for section in sections %}
+            <tr>
+                <td>{{ section.1 }}</td>
+                <td>{{ section.2 }}</td>
+                <td>{{ section.3 }}</td>
+                <td>{{ section.4 }}</td>
+                <td>{{ section.5 }}</td>
+                <td>{{ section.6 }}</td>
+                <td>{{ section.7 }}</td>
+                <td>{{ section.8 }}</td>
+                <td>{{ section.9 }}</td>
+                <td>{{ section.10 }}</td>
+                <td>{{ section.11 }}</td>
+                <td>{{ section.12 }}</td>
+                <td>{{ section.13 }}</td>
+                {% if request.user.user_type == 2 or request.user.user_type == 3 %}
+                <td>
+                    <div class="link-btn flex">
+                        <a href="{% url 'edit_section' section.0 %}">Edit</a>
+                        <a href="{% url 'delete_section' section.0 %}">Delete</a>
+                    </div>
+
+                </td>
+                {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="14">No sections found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

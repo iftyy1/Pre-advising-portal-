@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/table.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+    <title>BRAG UNI ADVISING!!</title>
+</head>
+
+<body>
+    {% if request.user.user_type == 2 or request.user.user_type == 3 %}
+    {% include 'navbar.html' %}
+    {%endif%}
+
+    {% if request.user.user_type == 1 %}
+    {% include 'studentNavbar.html' %}
+    {%endif%}
+
+
+    {% block content %}
+
+    {% endblock content %}
+
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/forms.css' %}" />
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <!-- You can include your CSS files here -->
+</head>
+<body>
+    <div class="container">
+
+        <!-- If the form has errors, display them here -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>There were errors in your form:</strong>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="edit-student-form">
+            <!-- Add CSRF token for security -->
+            {% csrf_token %}
+
+            <!-- Form fields -->
+            <div class="form-group">
+                <label for="student_id">Student ID</label>
+                {{ form.student_id }}
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                {{ form.department }}
+            </div>
+            <div class="form-group">
+                <label for="credits_completed">Credits Completed</label>
+                {{ form.credits_completed }}
+            </div>
+            <div class="form-group">
+                <label for="cgpa">CGPA</label>
+                {{ form.cgpa }}
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Save Changes</button>
+
+            <div class="link-btn center">
+                <a href="{% url 'all-students' %}">Cancel</a>
+            </div>
+            
+        </form>
+    </div>
+</body>
+</html>
+
+{% endblock content %}

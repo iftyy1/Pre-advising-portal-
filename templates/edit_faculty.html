@@ -1,0 +1,11 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/forms.css' %}" />
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+    <div class="link-btn center">
+        <a href="{% url 'faculty_list' %}">Back</a>
+    </div>
+</form>
